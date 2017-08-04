@@ -1,0 +1,2 @@
+project('freertos', 'c')
+
