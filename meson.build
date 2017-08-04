@@ -1,6 +1,6 @@
 project('freertos', 'c')
 
-sdir = 'subprojects/FreeRTOSv9.0.0/FreeRTOS/Source/'
+sdir = 'lib/freertos-9.0.0/'
 
 freertos_src = files([
 	sdir + 'croutine.c',
