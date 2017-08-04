@@ -1,0 +1,7 @@
+[wrap-file]
+directory = freertos
+
+source_url = https://downloads.sourceforge.net/project/freertos/FreeRTOS/V9.0.0/FreeRTOSv9.0.0.zip
+source_filename = FreeRTOSv9.0.0.zip
+source_hash = 1b4152757e513efbdb7f8d17938d69d216ea2ce14d9324b80eaac674a8232e94
+
