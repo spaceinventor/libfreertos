@@ -52,8 +52,9 @@
 #include <assert.h>
 void assert_triggered( const char * file, uint32_t line );
 
-unsigned int freertos_clock_hz = 0;
-unsigned int freertos_tick_rate_hz = 0;
+extern unsigned int freertos_clock_hz;
+extern unsigned int freertos_tick_rate_hz;
+void freertos_set_clocks(unsigned int clock_hz, unsigned int tick_rate_hz);
 
 #define configUSE_PREEMPTION                    1
 #define configUSE_IDLE_HOOK                     1

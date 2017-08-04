@@ -9,6 +9,8 @@ freertos_src = files([
 	sdir + 'queue.c',
 	sdir + 'tasks.c',
 	sdir + 'timers.c',
+	sdir + 'portable/MemMang/heap_3.c',
+	'src/freertos_init.c',
 ])
 
 freertos_inc = [
