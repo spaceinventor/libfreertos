@@ -2,3 +2,4 @@
 .project
 .settings
 builddir
+build_*
