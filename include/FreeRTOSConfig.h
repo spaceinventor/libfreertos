@@ -39,7 +39,7 @@ void freertos_set_clocks(unsigned int clock_hz, unsigned int tick_rate_hz);
 #define configUSE_IDLE_HOOK                     1
 #define configUSE_TICK_HOOK                     0
 #define configCHECK_FOR_STACK_OVERFLOW          1
-#define configUSE_MALLOC_FAILED_HOOK            0
+#define configUSE_MALLOC_FAILED_HOOK            1
 #define configUSE_DAEMON_TASK_STARTUP_HOOK      0
 
 /* Run time and task stats gathering related definitions. */
@@ -115,5 +115,11 @@ See http://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html. */
 #define INCLUDE_xTaskResumeFromISR              1
 
 /* A header file that defines trace macro can be included here. */
+
+/* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
+standard names - or at least those used in the unmodified vector table. */
+#define vPortSVCHandler                         SVC_Handler
+#define xPortPendSVHandler                      PendSV_Handler
+#define xPortSysTickHandler                     SysTick_Handler
 
 #endif /* FREERTOS_CONFIG_H */
