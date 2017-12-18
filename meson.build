@@ -25,12 +25,7 @@ freertos_inc += sdir + '/portable/' + freertos_port
 
 freertos_inc = include_directories(freertos_inc)
 
-freertos_lib = static_library('freertos',
-	sources : freertos_src,
-	include_directories : freertos_inc
-)
-
 freertos_dep = declare_dependency(
 	include_directories : freertos_inc,
-	link_with : freertos_lib
+	sources : freertos_src,
 )
