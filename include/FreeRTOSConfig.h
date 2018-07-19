@@ -30,7 +30,7 @@ void freertos_set_clocks(unsigned int clock_hz, unsigned int tick_rate_hz);
 #define configNUM_THREAD_LOCAL_STORAGE_POINTERS 0
 
 /* Memory allocation related definitions. */
-#define configSUPPORT_STATIC_ALLOCATION         0
+#define configSUPPORT_STATIC_ALLOCATION         1
 #define configSUPPORT_DYNAMIC_ALLOCATION        1
 #define configTOTAL_HEAP_SIZE                   10240
 #define configAPPLICATION_ALLOCATED_HEAP        1
@@ -96,23 +96,23 @@ See http://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html. */
 #define configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS 0
 
 /* Optional functions - most linkers will remove unused functions anyway. */
-#define INCLUDE_vTaskPrioritySet                1
-#define INCLUDE_uxTaskPriorityGet               1
+#define INCLUDE_vTaskPrioritySet                0
+#define INCLUDE_uxTaskPriorityGet               0
 #define INCLUDE_vTaskDelete                     0
 #define INCLUDE_vTaskSuspend                    0
-#define INCLUDE_xResumeFromISR                  1
+#define INCLUDE_xResumeFromISR                  0
 #define INCLUDE_vTaskDelayUntil                 1
 #define INCLUDE_vTaskDelay                      1
-#define INCLUDE_xTaskGetSchedulerState          1
-#define INCLUDE_xTaskGetCurrentTaskHandle       1
+#define INCLUDE_xTaskGetSchedulerState          0
+#define INCLUDE_xTaskGetCurrentTaskHandle       0
 #define INCLUDE_uxTaskGetStackHighWaterMark     0
 #define INCLUDE_xTaskGetIdleTaskHandle          0
-#define INCLUDE_eTaskGetState                   1
-#define INCLUDE_xEventGroupSetBitFromISR        1
+#define INCLUDE_eTaskGetState                   0
+#define INCLUDE_xEventGroupSetBitFromISR        0
 #define INCLUDE_xTimerPendFunctionCall          0
 #define INCLUDE_xTaskAbortDelay                 0
 #define INCLUDE_xTaskGetHandle                  0
-#define INCLUDE_xTaskResumeFromISR              1
+#define INCLUDE_xTaskResumeFromISR              0
 
 /* A header file that defines trace macro can be included here. */
 
@@ -121,5 +121,7 @@ standard names - or at least those used in the unmodified vector table. */
 #define vPortSVCHandler                         SVC_Handler
 #define xPortPendSVHandler                      PendSV_Handler
 #define xPortSysTickHandler                     SysTick_Handler
+
+
 
 #endif /* FREERTOS_CONFIG_H */
