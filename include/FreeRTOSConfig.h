@@ -33,7 +33,7 @@ void freertos_set_clocks(unsigned int clock_hz, unsigned int tick_rate_hz);
 #define configSUPPORT_STATIC_ALLOCATION         1
 #define configSUPPORT_DYNAMIC_ALLOCATION        1
 #define configTOTAL_HEAP_SIZE                   10240
-#define configAPPLICATION_ALLOCATED_HEAP        1
+#define configAPPLICATION_ALLOCATED_HEAP        0
 
 /* Hook function related definitions. */
 #define configUSE_IDLE_HOOK                     1

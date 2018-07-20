@@ -9,9 +9,18 @@ freertos_src = files([
 	sdir + 'queue.c',
 	sdir + 'tasks.c',
 	sdir + 'timers.c',
-	sdir + 'portable/MemMang/heap_3.c',
 	'src/freertos_init.c',
 ])
+
+if meson.get_cross_property('nolibc') == true
+	freertos_src += files([
+		sdir + 'portable/MemMang/heap_4.c',
+	])
+else
+	freertos_src += files([
+		sdir + 'portable/MemMang/heap_3.c',
+	])	
+endif
 
 freertos_inc = [
 	'include',

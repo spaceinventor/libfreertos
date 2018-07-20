@@ -6,6 +6,7 @@
  */
 
 #include <FreeRTOS.h>
+#include <string.h>
 
 unsigned int freertos_clock_hz = 0;
 unsigned int freertos_tick_rate_hz = 0;
@@ -26,3 +27,4 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 }
 #endif
+
