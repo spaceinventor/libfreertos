@@ -13,7 +13,7 @@ void freertos_set_clocks(unsigned int clock_hz, unsigned int tick_rate_hz);
 #define configCPU_CLOCK_HZ                      freertos_clock_hz
 #define configTICK_RATE_HZ                      freertos_tick_rate_hz
 #define configMAX_PRIORITIES                    5
-#define configMINIMAL_STACK_SIZE                128
+#define configMINIMAL_STACK_SIZE                256
 #define configMAX_TASK_NAME_LEN                 8
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1
