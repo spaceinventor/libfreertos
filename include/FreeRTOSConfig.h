@@ -33,7 +33,7 @@
 // <i> Default: 2400
 // <id> freertos_total_heap_size
 #ifndef configTOTAL_HEAP_SIZE
-#define configTOTAL_HEAP_SIZE ((size_t)(200000))
+#define configTOTAL_HEAP_SIZE ((size_t)(10000))
 #endif
 
 // <q> Enable mutex
@@ -127,7 +127,7 @@
 // <i> default is not supposed for Cortex-M0
 // <id> freertos_use_port_optimised_functions
 #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-#define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
+#define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
 #endif
 
 // <q> Use application task tag functions

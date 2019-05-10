@@ -32,6 +32,8 @@
 /* Scheduler includes. */
 #include "FreeRTOS.h"
 #include "task.h"
+#include <peripheral_clk_config.h>
+
 
 /* Constants required to manipulate the NVIC. */
 #define portNVIC_SYSTICK_CTRL			( ( volatile uint32_t * ) 0xe000e010 )
@@ -355,7 +357,7 @@ void prvSetupTimerInterrupt( void )
 	*(portNVIC_SYSTICK_CURRENT_VALUE) = 0UL;
 
 	/* Configure SysTick to interrupt at the requested rate. */
-	*(portNVIC_SYSTICK_LOAD) = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
+	*(portNVIC_SYSTICK_LOAD) = ( CONF_CPU_FREQUENCY / configTICK_RATE_HZ ) - 1UL;
 	*(portNVIC_SYSTICK_CTRL) = portNVIC_SYSTICK_CLK | portNVIC_SYSTICK_INT | portNVIC_SYSTICK_ENABLE;
 }
 /*-----------------------------------------------------------*/
