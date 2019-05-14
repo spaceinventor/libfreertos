@@ -1,5 +1,9 @@
 project('freertos', 'c')
 
+conf_data = configuration_data()
+conf_data.set('configTOTAL_HEAP_SIZE', get_option('total_heap_size'))
+configure_file(output : 'freertos_config.h', configuration: conf_data)
+
 sdir = 'lib/freertos-10.2.0/'
 
 freertos_src = files([
@@ -14,6 +18,7 @@ freertos_src = files([
 ])
 
 freertos_inc = [
+	'.',
 	'include',
 	sdir + 'include',	
 ]

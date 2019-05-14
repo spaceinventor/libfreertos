@@ -1,0 +1,2 @@
+option('total_heap_size', type: 'integer', value: 20000, description: 'Heap size for dynamic memory allocation')
+

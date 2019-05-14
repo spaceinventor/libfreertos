@@ -2,6 +2,8 @@
 #ifndef FREERTOSCONFIG_H
 #define FREERTOSCONFIG_H
 
+#include <freertos_config.h>
+
 // <<< Use Configuration Wizard in Context Menu >>>
 
 #if defined(__GNUC__) || defined(__ICCARM__)
