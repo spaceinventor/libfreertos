@@ -42,3 +42,8 @@ freertos_dep = declare_dependency(
 	include_directories : freertos_inc,
 	link_with : freertos_lib,
 )
+
+freertos_dep_whole = declare_dependency(
+	include_directories : freertos_inc,
+	link_whole : freertos_lib,
+)

@@ -11,7 +11,9 @@ extern void vApplicationIdleHook(void);
 #if configSUPPORT_STATIC_ALLOCATION
 /* static memory allocation for the IDLE task */
 static StaticTask_t xIdleTaskTCBBuffer;
-static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+
+__attribute__((section(".noinit")))
+StackType_t xIdleStack[configMINIMAL_STACK_SIZE+STARTUP_STACK_SIZE];
 
 void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize) {
   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;

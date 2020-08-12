@@ -26,8 +26,10 @@
 // <i> Default: 64
 // <id> freertos_minimal_stack_size
 #ifndef configMINIMAL_STACK_SIZE
-#define configMINIMAL_STACK_SIZE ((uint16_t)1000)
+#define configMINIMAL_STACK_SIZE ((uint16_t)500)
 #endif
+
+#define STARTUP_STACK_SIZE 128
 
 /* configTOTAL_HEAP_SIZE is not used when heap_3.c is used. */
 // <o> Heap size<64-1048576:4>
