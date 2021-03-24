@@ -22,8 +22,9 @@ freertos_inc = [
 	'include',
 	sdir + 'include',	
 ]
-
-freertos_deps = dependency('start', fallback: ['start', 'start_dep'])
+freertos_deps = []
+freertos_deps += dependency('start', fallback: ['start', 'start_dep'])
+freertos_deps += dependency('libc', fallback: ['picolibc', 'picolibc_dep'])
 
 freertos_port = meson.get_cross_property('freertos_port')
 
