@@ -22,6 +22,11 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 }
 #endif
 
+#if (configSUPPORT_DYNAMIC_ALLOCATION == 0)
+char * __heap_start = 0;
+char * __heap_end = 0;
+#endif
+
 /**
  * \brief Called if stack overflow during execution
  */

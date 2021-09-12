@@ -322,6 +322,10 @@ to all Cortex-M ports, and do not rely on any particular library functions. */
 #define configSUPPORT_STATIC_ALLOCATION 1
 #endif
 
+#ifndef configSUPPORT_DYNAMIC_ALLOCATION
+#define configSUPPORT_DYNAMIC_ALLOCATION 0
+#endif
+
 #ifndef configUSE_NEWLIB_REENTRANT
 #define configUSE_NEWLIB_REENTRANT 0
 #endif
