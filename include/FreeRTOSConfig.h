@@ -118,7 +118,11 @@
 // <q> Use trace facility
 // <id> freertos_use_trace_facility
 #ifndef configUSE_TRACE_FACILITY
+#if (configSUPPORT_DYNAMIC_ALLOCATION == 1)
+#define configUSE_TRACE_FACILITY 1
+#else
 #define configUSE_TRACE_FACILITY 0
+#endif
 #endif
 
 // <q> Use statistics formating functions
