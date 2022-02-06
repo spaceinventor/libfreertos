@@ -35,7 +35,7 @@ freertos_deps = []
 freertos_deps += dependency('start', fallback: ['start', 'start_dep'])
 freertos_deps += dependency('libc', fallback: ['picolibc', 'picolibc_dep'])
 
-freertos_port = meson.get_cross_property('freertos_port')
+freertos_port = meson.get_external_property('freertos_port')
 
 freertos_src += files(sdir + 'portable/' + freertos_port + '/port.c')
 freertos_inc += sdir + 'portable/' + freertos_port
