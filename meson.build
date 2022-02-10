@@ -20,7 +20,10 @@ freertos_src = files([
 ])
 
 if (get_option('total_heap_size') > 0)
-	freertos_src += files([sdir + 'portable/MemMang/heap_4.c'])
+	freertos_src += files([
+		sdir + 'portable/MemMang/heap_4.c',
+		'src/malloc.c'
+	])
 	conf_data.set('configSUPPORT_DYNAMIC_ALLOCATION', 1)
 endif
 
