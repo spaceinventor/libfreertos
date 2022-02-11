@@ -7,7 +7,7 @@ conf_data.set('configCPU_CLOCK_HZ', get_option('cpu_clock_hz'))
 
 sdir = 'upstream/'
 
-freertos_inc = ['upstream']
+freertos_inc = ['upstream/include']
 freertos_src = files([
 	sdir + 'croutine.c',
 	sdir + 'event_groups.c',
