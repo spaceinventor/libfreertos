@@ -65,7 +65,7 @@ void cpu_reset(void) {
 }
 
 int usleep(__useconds_t __useconds) {
-	vTaskDelay(__useconds);
+	vTaskDelay((__useconds / 1000) * (1000 / configTICK_RATE_HZ));
 	return 0;
 }
 
