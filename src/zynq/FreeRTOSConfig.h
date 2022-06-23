@@ -30,6 +30,8 @@
 #ifndef _FREERTOSCONFIG_H
 #define _FREERTOSCONFIG_H
 
+#include <freertos_config.h>
+
 #define configUSE_PREEMPTION 1
 
 #define configUSE_MUTEXES 1
@@ -50,7 +52,19 @@
 
 #define configUSE_MALLOC_FAILED_HOOK 1
 
+// <q> Use trace facility
+// <id> freertos_use_trace_facility
+#ifndef configUSE_TRACE_FACILITY
+#if (configSUPPORT_DYNAMIC_ALLOCATION == 1)
 #define configUSE_TRACE_FACILITY 1
+#else
+#define configUSE_TRACE_FACILITY 0
+#endif
+#endif
+
+#ifndef configSUPPORT_DYNAMIC_ALLOCATION
+#define configSUPPORT_DYNAMIC_ALLOCATION 0
+#endif
 
 #define configUSE_NEWLIB_REENTRANT 0
 
@@ -66,8 +80,6 @@
 
 #define configUSE_CO_ROUTINES 0
 
-#define configTICK_RATE_HZ (100)
-
 #define configMAX_PRIORITIES (8)
 
 #define configMAX_CO_ROUTINE_PRIORITIES 2
@@ -75,7 +87,6 @@
 #define configMINIMAL_STACK_SIZE ( ( unsigned short ) 4000)
 
 #define configAPPLICATION_ALLOCATED_HEAP 1
-#define configTOTAL_HEAP_SIZE ( ( size_t ) ( 30000 ) )
 
 #define configMAX_TASK_NAME_LEN 10
 
