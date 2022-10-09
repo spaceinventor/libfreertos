@@ -13,12 +13,12 @@ extern void vApplicationIdleHook(void);
 static StaticTask_t xIdleTaskTCBBuffer;
 
 __attribute__((section(".noinit")))
-StackType_t xIdleStack[configMINIMAL_STACK_SIZE+STARTUP_STACK_SIZE];
+StackType_t xIdleStack[128];
 
 void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize) {
   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
   *ppxIdleTaskStackBuffer = &xIdleStack[0];
-  *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+  *pulIdleTaskStackSize = 128;
 }
 #endif
 

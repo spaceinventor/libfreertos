@@ -16,6 +16,7 @@ freertos_src = files([
 	sdir + 'tasks.c',
 	sdir + 'timers.c',
 	'src/freertos_atomics_gcc.c',
+	'src/freertos_print.c',
 ])
 
 if (get_option('total_heap_size') > 0)
