@@ -330,4 +330,6 @@ to all Cortex-M ports, and do not rely on any particular library functions. */
 #define configUSE_NEWLIB_REENTRANT 0
 #endif
 
+#define configSTACK_DEPTH_TYPE uint32_t
+
 #endif // FREERTOSCONFIG_H
