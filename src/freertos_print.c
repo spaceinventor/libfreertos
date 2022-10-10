@@ -39,7 +39,7 @@ void rtos_debug_hook(void) {
         }
 
         printf("\tprio: %lu", tasks[i].uxCurrentPriority);
-        printf("\tstack: %u", tasks[i].usStackHighWaterMark);
+        printf("\tstack: %lu", tasks[i].usStackHighWaterMark);
         printf("\tid: %lu", tasks[i].xTaskNumber);
         printf("\tload: %lu%%", tasks[i].ulRunTimeCounter / total_time);
         printf("\n");
