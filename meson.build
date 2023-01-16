@@ -27,6 +27,11 @@ if (get_option('total_heap_size') > 0)
 	conf_data.set('configSUPPORT_DYNAMIC_ALLOCATION', 1)
 endif
 
+if (get_option('num_locks') > 0)
+	freertos_src += files(['src/freertos_lock.c'])
+	conf_data.set('NUM_LOCKS', get_option('num_locks'))
+endif
+
 configure_file(output : 'freertos_config.h', configuration: conf_data)
 
 freertos_deps = []

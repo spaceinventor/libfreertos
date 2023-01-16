@@ -2,3 +2,4 @@ option('total_heap_size', type: 'integer', value: 20000, description: 'Heap size
 option('tick_rate_hz', type: 'integer', value: 100, description: 'Kernel tick rate')
 option('cpu_clock_hz', type: 'integer', value: 16000000, description: 'CPU clock speed')
 option('arch', type: 'string', value: 'asf', description: 'asf or zynq')
+option('num_locks', type: 'integer', value: '0', description: 'Number of binary semaphores available')
