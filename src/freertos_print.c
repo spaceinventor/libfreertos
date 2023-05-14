@@ -5,9 +5,9 @@
 
 void rtos_debug_hook(void) {
 
-    TaskStatus_t tasks[10];
+    TaskStatus_t tasks[20];
     uint32_t total_time;
-    int count = uxTaskGetSystemState(tasks, 10, &total_time);
+    int count = uxTaskGetSystemState(tasks, 20, &total_time);
 
     /* Divide by 100 for percentace calculations */
     total_time /= 100;
