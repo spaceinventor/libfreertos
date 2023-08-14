@@ -116,11 +116,7 @@
 
 #define configNUM_THREAD_LOCAL_STORAGE_POINTERS 10
 
-#define configGENERATE_RUN_TIME_STATS 0
-
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
-
-#define portGET_RUN_TIME_COUNTER_VALUE()
+#define configGENERATE_RUN_TIME_STATS 1
 
 #define configUSE_TICKLESS_IDLE	0
 #define configTASK_RETURN_ADDRESS    NULL
@@ -157,5 +153,13 @@ void FreeRTOS_ClearTickInterrupt( void );
 #ifdef FREERTOS_ENABLE_TRACE
 #include "FreeRTOSSTMTrace.h"
 #endif /* FREERTOS_ENABLE_TRACE */
+
+/* Used when configGENERATE_RUN_TIME_STATS is 1. */
+#if configGENERATE_RUN_TIME_STATS
+extern void     vConfigureTimerForRunTimeStats(void);
+extern uint32_t vGetRunTimeCounterValue(void);
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() vConfigureTimerForRunTimeStats()
+#define portGET_RUN_TIME_COUNTER_VALUE() vGetRunTimeCounterValue()
+#endif
 
 #endif
