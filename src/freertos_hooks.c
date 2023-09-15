@@ -59,6 +59,11 @@ extern void vApplicationIdleHook(void) {
 	sleep(0);
 }
 
+void vConfigureTickInterrupt( void )
+{
+   /* TODO: Implement configuration of Tick interrupt for FreeRTOS on platform */
+}
+
 extern void __attribute__((weak)) cpu_reset(void);
 void cpu_reset(void) {
 	_reset_mcu();
