@@ -25,6 +25,9 @@ if (get_option('total_heap_size') > 0)
 		'src/malloc.c',
 	])
 	conf_data.set('configSUPPORT_DYNAMIC_ALLOCATION', 1)
+	if(get_option('app_alloc_heap'))
+		conf_data.set('configAPPLICATION_ALLOCATED_HEAP', 1)
+	endif
 endif
 
 if (get_option('num_locks') > 0)

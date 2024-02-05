@@ -3,3 +3,4 @@ option('tick_rate_hz', type: 'integer', value: 100, description: 'Kernel tick ra
 option('cpu_clock_hz', type: 'integer', value: 16000000, description: 'CPU clock speed')
 option('arch', type: 'string', value: 'asf', description: 'asf or zynq')
 option('num_locks', type: 'integer', value: '0', description: 'Number of binary semaphores available')
+option('app_alloc_heap', type: 'boolean', value: false, description: 'Application will allocate heap, useful for putting in different section')
