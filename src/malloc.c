@@ -36,6 +36,7 @@ static const size_t xHeapStructSize =
 static const size_t xBlockAllocatedBit = ((size_t)1) << ((sizeof(size_t) * sizeof(uint8_t) * 8) - 1);
 
 void *pvPortRealloc(void *pv, size_t xNewSize) {
+  printf("free: %u\n", xPortGetFreeHeapSize());
   vTaskSuspendAll();
   if (pv == NULL) {
     // If pv is NULL, then the call is equivalent to malloc(size)
