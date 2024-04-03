@@ -45,5 +45,8 @@ void rtos_debug_hook(void) {
         printf("\n");
         
     }
+#ifdef configSUPPORT_DYNAMIC_ALLOCATION
+    printf("Free Heap: %zu Bytes\n", xPortGetFreeHeapSize());
+#endif
 
 }   
