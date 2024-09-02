@@ -29,6 +29,7 @@
 #include <stdlib.h>
 
 /* Scheduler includes. */
+#include "freertos_config.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
@@ -236,6 +237,11 @@ __attribute__(( used )) const uint32_t ulICCIAR = portICCIAR_INTERRUPT_ACKNOWLED
 __attribute__(( used )) const uint32_t ulICCEOIR = portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS;
 __attribute__(( used )) const uint32_t ulICCPMR	= portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS;
 __attribute__(( used )) const uint32_t ulMaxAPIPriorityMask = ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
+
+#if (configSUPPORT_DYNAMIC_ALLOCATION == 0)
+char * __heap_start = 0;
+char * __heap_end = 0;
+#endif
 
 /*-----------------------------------------------------------*/
 

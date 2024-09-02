@@ -86,8 +86,6 @@
 
 #define configMINIMAL_STACK_SIZE ( ( unsigned short ) 4000)
 
-#define configAPPLICATION_ALLOCATED_HEAP 1
-
 #define configMAX_TASK_NAME_LEN 10
 
 #define configIDLE_SHOULD_YIELD 1
