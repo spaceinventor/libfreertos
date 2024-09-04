@@ -55,11 +55,7 @@
 // <q> Use trace facility
 // <id> freertos_use_trace_facility
 #ifndef configUSE_TRACE_FACILITY
-#if (configSUPPORT_DYNAMIC_ALLOCATION == 1)
 #define configUSE_TRACE_FACILITY 1
-#else
-#define configUSE_TRACE_FACILITY 0
-#endif
 #endif
 
 #ifndef configSUPPORT_DYNAMIC_ALLOCATION
@@ -110,7 +106,7 @@
 
 #define configQUEUE_REGISTRY_SIZE 10
 
-#define configUSE_STATS_FORMATTING_FUNCTIONS 1
+#define configUSE_STATS_FORMATTING_FUNCTIONS 0
 
 #define configNUM_THREAD_LOCAL_STORAGE_POINTERS 10
 
