@@ -41,12 +41,12 @@ freertos_deps = []
 freertos_deps += dependency('start', fallback: ['start', 'start_dep'])
 freertos_deps += dependency('libc', fallback: ['picolibc', 'picolibc_dep'])
 
-if get_option('arch') == 'asf'
+if get_option('arch') == 'c21' or get_option('arch') == 'e70'
 	freertos_src += files(['src/freertos_hooks.c'])
 	freertos_port = meson.get_external_property('freertos_port')
 	freertos_src += files(sdir + 'portable/' + freertos_port + '/port.c')
 	freertos_inc += sdir + 'portable/' + freertos_port
-	freertos_inc += 'src/asf'
+	freertos_inc += 'src/' + get_option('arch')
 else
 	freertos_src += files(['src/zynq/port.c', 'src/zynq/portZynq7000.c'])
 	freertos_inc += 'src/zynq'
