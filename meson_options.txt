@@ -1,6 +1,6 @@
 option('total_heap_size', type: 'integer', value: 20000, description: 'Heap size for dynamic memory allocation')
 option('tick_rate_hz', type: 'integer', value: 100, description: 'Kernel tick rate')
 option('cpu_clock_hz', type: 'integer', value: 16000000, description: 'CPU clock speed')
-option('arch', type: 'string', description: 'c21, e70 or zynq')
+option('arch', type: 'combo', choices: ['default', 'c21', 'e70', 'zynq'], value: 'default', description: 'c21, e70 or zynq')
 option('num_locks', type: 'integer', value: '0', description: 'Number of binary semaphores available')
 option('app_alloc_heap', type: 'boolean', value: false, description: 'Application will allocate heap, useful for putting in different section')

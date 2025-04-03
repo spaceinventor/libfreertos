@@ -47,9 +47,11 @@ if get_option('arch') == 'c21' or get_option('arch') == 'e70'
 	freertos_src += files(sdir + 'portable/' + freertos_port + '/port.c')
 	freertos_inc += sdir + 'portable/' + freertos_port
 	freertos_inc += 'src/' + get_option('arch')
-else
+elif get_option('arch') == 'zynq'
 	freertos_src += files(['src/zynq/port.c', 'src/zynq/portZynq7000.c'])
 	freertos_inc += 'src/zynq'
+else
+	error('Must explicitly specify freertos:arch')
 endif
 
 freertos_inc = include_directories(freertos_inc)
