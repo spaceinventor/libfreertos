@@ -168,6 +168,10 @@ volatile uint32_t ulLocalLine = ulLine; /* To prevent ulLine being optimized awa
 	can be viewed to find which line failed its configASSERT() test.  Finally,
 	the debugger can be used to set ul to a non-zero value, then step out of
 	this function to find where the assert function was entered. */
+#ifdef USE_WD_MODE_DEBUG
+	extern void cpu_reset(void);
+	cpu_reset();
+#endif
 	taskENTER_CRITICAL();
 	{
 		while( ul == 0 )
@@ -218,6 +222,10 @@ volatile char *pcOverflowingTaskName = pcTaskName;
 	( void ) pcOverflowingTaskName;
 
 	xil_printf( "HALT: Task %s overflowed its stack.", pcOverflowingTaskName );
+#ifdef USE_WD_MODE_DEBUG
+	extern void cpu_reset(void);
+	cpu_reset();
+#endif
 	portDISABLE_INTERRUPTS();
 	for( ;; );
 }
