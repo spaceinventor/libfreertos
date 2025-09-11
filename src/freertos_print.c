@@ -33,7 +33,7 @@ void rtos_debug_hook(void) {
     /* Divide by 100 for percentace calculations */
     uint32_t total_time = (time_now - time_last) / 100;
 
-    printf("CPU usage averaged over last %.2f sec\n", ((float)total_time)/10000);
+    printf("\nCPU usage averaged over last %.2f sec\n", ((float)total_time)/10000);
 
     /* Create a human readable table from the binary data. */
     for(int i = 0; i < count; i++) {
@@ -72,8 +72,15 @@ void rtos_debug_hook(void) {
         printf("\n");
         
     }
+
 #if configSUPPORT_DYNAMIC_ALLOCATION > 0
-    printf("Free Heap: %zu Bytes\n", xPortGetFreeHeapSize());
+    HeapStats_t pxHeapStats;
+    vPortGetHeapStats(&pxHeapStats);
+    if (pxHeapStats.xNumberOfSuccessfulAllocations > 0) {
+        printf("Free Heap: %zu Bytes, Minimum since boot: %zu Bytes\n", pxHeapStats.xAvailableHeapSpaceInBytes, pxHeapStats.xMinimumEverFreeBytesRemaining);
+    } else {
+        printf("Application heap not in use\n");
+    }
 #endif
 
 }
