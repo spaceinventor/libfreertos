@@ -31,10 +31,15 @@
 #include "task.h"
 
 /* Xilinx includes. */
-#include "xscutimer.h"
 #include "xscugic.h"
+#include "xttcps.h"
 
-#define XSCUTIMER_CLOCK_HZ ( XPAR_CPU_CORTEXA9_0_CPU_CLK_FREQ_HZ / 2UL )
+#include <stdio.h>
+
+/* TTC clock frequency is provided by BSP xparameters for device 0. */
+#ifndef XPAR_XTTCPS_0_TTC_CLK_FREQ_HZ
+#error "XPAR_XTTCPS_0_TTC_CLK_FREQ_HZ not defined; ensure TTC0 is enabled in BSP."
+#endif
 
 /*
  * Some FreeRTOSConfig.h settings require the application writer to provide the
@@ -52,8 +57,10 @@ void vApplicationIdleHook( void ) __attribute__((weak));
 void vApplicationMallocFailedHook( void ) __attribute((weak));
 void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName ) __attribute__((weak));
 
-/* Timer used to generate the tick interrupt. */
-static XScuTimer xTimer;
+/* Timer used to generate the tick interrupt: use PS TTC0. */
+XTtcPs xTtc0;
+u16 timer_ulTtcInterval = 0;
+static u8 ucTtcPrescaler = 0;
 XScuGic xInterruptController; 	/* Interrupt controller instance */
 /*-----------------------------------------------------------*/
 
@@ -61,9 +68,9 @@ void FreeRTOS_SetupTickInterrupt( void )
 {
 BaseType_t xStatus;
 extern void FreeRTOS_Tick_Handler( void );
-XScuTimer_Config *pxTimerConfig;
 XScuGic_Config *pxGICConfig;
 const uint8_t ucRisingEdge = 3;
+XTtcPs_Config *pxTtcCfg;
 
 	/* This function is called with the IRQ interrupt disabled, and the IRQ
 	interrupt should be left disabled.  It is enabled automatically when the
@@ -77,52 +84,55 @@ const uint8_t ucRisingEdge = 3;
 	( void ) xStatus; /* Remove compiler warning if configASSERT() is not defined. */
 
 	/* The priority must be the lowest possible. */
-	XScuGic_SetPriorityTriggerType( &xInterruptController, XPAR_SCUTIMER_INTR, portLOWEST_USABLE_INTERRUPT_PRIORITY << portPRIORITY_SHIFT, ucRisingEdge );
+	XScuGic_SetPriorityTriggerType( &xInterruptController, XPAR_XTTCPS_0_INTR, portLOWEST_USABLE_INTERRUPT_PRIORITY << portPRIORITY_SHIFT, ucRisingEdge );
 
-	/* Install the FreeRTOS tick handler. */
-	xStatus = XScuGic_Connect( &xInterruptController, XPAR_SCUTIMER_INTR, (Xil_ExceptionHandler) FreeRTOS_Tick_Handler, ( void * ) &xTimer );
+	/* Install the FreeRTOS tick handler on TTC0 interrupt. */
+	xStatus = XScuGic_Connect( &xInterruptController, XPAR_XTTCPS_0_INTR, (Xil_ExceptionHandler) FreeRTOS_Tick_Handler, ( void * ) &xTtc0 );
 	configASSERT( xStatus == XST_SUCCESS );
 	( void ) xStatus; /* Remove compiler warning if configASSERT() is not defined. */
 
-	/* Initialise the timer. */
-	pxTimerConfig = XScuTimer_LookupConfig( XPAR_SCUTIMER_DEVICE_ID );
-	xStatus = XScuTimer_CfgInitialize( &xTimer, pxTimerConfig, pxTimerConfig->BaseAddr );
+	/* Initialise TTC0. */
+	pxTtcCfg = XTtcPs_LookupConfig( XPAR_XTTCPS_0_DEVICE_ID );
+	configASSERT( pxTtcCfg != NULL );
+	xStatus = XTtcPs_CfgInitialize( &xTtc0, pxTtcCfg, pxTtcCfg->BaseAddress );
 	configASSERT( xStatus == XST_SUCCESS );
-	( void ) xStatus; /* Remove compiler warning if configASSERT() is not defined. */
 
-	/* Enable Auto reload mode. */
-	XScuTimer_EnableAutoReload( &xTimer );
-
-	/* Ensure there is no prescale. */
-	XScuTimer_SetPrescaler( &xTimer, 0 );
-
-	/* Load the timer counter register.
-	 * The Xilinx implementation of generating run time task stats uses the same timer used for generating
-	 * FreeRTOS ticks. In case user decides to generate run time stats the timer time out interval is changed
-	 * as "configured tick rate * 10". The multiplying factor of 10 is hard coded for Xilinx FreeRTOS ports.
-	 */
+	/* Calculate interval & prescaler for the requested tick rate. */
 #if (configGENERATE_RUN_TIME_STATS == 1)
-	XScuTimer_LoadTimer( &xTimer, XSCUTIMER_CLOCK_HZ / (configTICK_RATE_HZ * 10) );
+	XTtcPs_CalcIntervalFromFreq( &xTtc0, configTICK_RATE_HZ * 10, &timer_ulTtcInterval, &ucTtcPrescaler );
 #else
-	XScuTimer_LoadTimer( &xTimer, XSCUTIMER_CLOCK_HZ / configTICK_RATE_HZ );
+	XTtcPs_CalcIntervalFromFreq( &xTtc0, configTICK_RATE_HZ, &timer_ulTtcInterval, &ucTtcPrescaler );
 #endif
 
-	/* Start the timer counter and then wait for it to timeout a number of
-	times. */
-	XScuTimer_Start( &xTimer );
+	/* Configure TTC options: interval mode, decrement, and enable waveform output (EMIO) for PL if supported. */
+	{
+		u32 ulOpts = XTTCPS_OPTION_INTERVAL_MODE | XTTCPS_OPTION_DECREMENT | XTTCPS_OPTION_MATCH_MODE;
+		XTtcPs_SetOptions( &xTtc0, ulOpts );
+	}
+	XTtcPs_SetPrescaler( &xTtc0, ucTtcPrescaler );
+	XTtcPs_SetInterval( &xTtc0, timer_ulTtcInterval );
+	XTtcPs_SetMatchValue( &xTtc0, 0, 10 );
+	printf("%d %d\n", ucTtcPrescaler, timer_ulTtcInterval);
 
-	/* Enable the interrupt for the xTimer in the interrupt controller. */
-	XScuGic_Enable( &xInterruptController, XPAR_SCUTIMER_INTR );
+	/* Clear any pending interrupts and enable interval interrupt. */
+	XTtcPs_ClearInterruptStatus( &xTtc0, XTTCPS_IXR_INTERVAL_MASK );
+	XTtcPs_EnableInterrupts( &xTtc0, XTTCPS_IXR_INTERVAL_MASK );
 
-	/* Enable the interrupt in the xTimer itself. */
+	/* Start TTC0. When PL is initialized and EMIO is routed, the wave output toggles as well. */
+	XTtcPs_Start( &xTtc0 );
+
+	/* Enable the interrupt for TTC0 in the interrupt controller. */
+	XScuGic_Enable( &xInterruptController, XPAR_XTTCPS_0_INTR );
+
+	/* Ensure the first interrupt is clean. */
 	FreeRTOS_ClearTickInterrupt();
-	XScuTimer_EnableInterrupt( &xTimer );
 }
 /*-----------------------------------------------------------*/
 
 void FreeRTOS_ClearTickInterrupt( void )
 {
-	XScuTimer_ClearInterruptStatus( &xTimer );
+	/* Clear TTC0 interval interrupt. */
+	XTtcPs_ClearInterruptStatus( &xTtc0, XTTCPS_IXR_INTERVAL_MASK );
 }
 /*-----------------------------------------------------------*/
 
