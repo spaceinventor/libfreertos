@@ -588,10 +588,6 @@ void FreeRTOS_Tick_Handler( void )
 	 * For handling generation of run time stats, it increments a pre-defined counter every time the
 	 * interrupt handler executes.
 	 */
-#if (configGENERATE_RUN_TIME_STATS == 1)
-	ulHighFrequencyTimerTicks++;
-	if (!(ulHighFrequencyTimerTicks % 10))
-#endif
 	{
 	/* Set interrupt mask before altering scheduler structures.   The tick
 	handler runs at the lowest priority, so interrupts cannot already be masked,

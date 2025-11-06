@@ -98,11 +98,7 @@ XTtcPs_Config *pxTtcCfg;
 	configASSERT( xStatus == XST_SUCCESS );
 
 	/* Calculate interval & prescaler for the requested tick rate. */
-#if (configGENERATE_RUN_TIME_STATS == 1)
-	XTtcPs_CalcIntervalFromFreq( &xTtc0, configTICK_RATE_HZ * 10, &timer_ulTtcInterval, &ucTtcPrescaler );
-#else
 	XTtcPs_CalcIntervalFromFreq( &xTtc0, configTICK_RATE_HZ, &timer_ulTtcInterval, &ucTtcPrescaler );
-#endif
 
 	/* Configure TTC options: interval mode, decrement, and enable waveform output (EMIO) for PL if supported. */
 	{
@@ -112,7 +108,6 @@ XTtcPs_Config *pxTtcCfg;
 	XTtcPs_SetPrescaler( &xTtc0, ucTtcPrescaler );
 	XTtcPs_SetInterval( &xTtc0, timer_ulTtcInterval );
 	XTtcPs_SetMatchValue( &xTtc0, 0, 10 );
-	printf("%d %d\n", ucTtcPrescaler, timer_ulTtcInterval);
 
 	/* Clear any pending interrupts and enable interval interrupt. */
 	XTtcPs_ClearInterruptStatus( &xTtc0, XTTCPS_IXR_INTERVAL_MASK );
