@@ -283,7 +283,8 @@ to exclude the API function. */
 
 /* Normal assert() semantics without relying on the provision of an assert.h
 header file. */
-//#define configASSERT(x) ASSERT(x)
+void vApplicationAssert( const char *pcFile, uint32_t ulLine );
+#define configASSERT( x ) if( ( x ) == 0 ) vApplicationAssert( __FILE__, __LINE__ )
 
 /* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
 standard names - or at least those used in the unmodified vector table. */
@@ -328,6 +329,10 @@ to all Cortex-M ports, and do not rely on any particular library functions. */
 
 #ifndef configUSE_NEWLIB_REENTRANT
 #define configUSE_NEWLIB_REENTRANT 0
+#endif
+
+#ifndef configTASK_NOTIFICATION_ARRAY_ENTRIES
+#define configTASK_NOTIFICATION_ARRAY_ENTRIES 2
 #endif
 
 #define configSTACK_DEPTH_TYPE uint32_t
