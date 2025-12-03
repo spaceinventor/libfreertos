@@ -5,12 +5,7 @@
 
 #define MAX_TASKS 20
 
-struct {
-    uint32_t last;
-    uint32_t now;
-    TaskHandle_t xHandle;
-} taskstatus[MAX_TASKS];
-
+uint32_t task_time_last[MAX_TASKS];
 uint32_t time_last;
 uint32_t time_now;
 
@@ -18,17 +13,8 @@ void rtos_debug_hook(void) {
 
     time_last = time_now;
 
-    TaskStatus_t tasks[MAX_TASKS];
+    TaskStatus_t tasks[uxTaskGetNumberOfTasks()];
     int count = uxTaskGetSystemState(tasks, MAX_TASKS, &time_now);
-
-    for(int i = 0; i < count; i++) {
-        if (tasks[i].xTaskNumber >= MAX_TASKS) {
-            continue;
-        }
-        taskstatus[tasks[i].xTaskNumber].last = taskstatus[tasks[i].xTaskNumber].now;
-        taskstatus[tasks[i].xTaskNumber].now = tasks[i].ulRunTimeCounter;
-        taskstatus[tasks[i].xTaskNumber].xHandle = tasks[i].xHandle;
-    }
 
     /* Divide by 100 for percentace calculations */
     uint32_t total_time = (time_now - time_last) / 100;
@@ -37,6 +23,10 @@ void rtos_debug_hook(void) {
 
     /* Create a human readable table from the binary data. */
     for(int i = 0; i < count; i++) {
+
+        if (tasks[i].xTaskNumber >= MAX_TASKS) {
+            continue;
+        }
 
         printf("%s\t", tasks[i].pcTaskName);
 
@@ -63,7 +53,8 @@ void rtos_debug_hook(void) {
         }
 #endif
 
-        uint32_t time_consumed = taskstatus[tasks[i].xTaskNumber].now - taskstatus[tasks[i].xTaskNumber].last;
+        uint32_t time_consumed = tasks[i].ulRunTimeCounter - task_time_last[tasks[i].xTaskNumber];
+        task_time_last[tasks[i].xTaskNumber] = tasks[i].ulRunTimeCounter;
 
         printf("\tprio: %lu", tasks[i].uxCurrentPriority);
         printf("\tstack: %lu", tasks[i].usStackHighWaterMark);
