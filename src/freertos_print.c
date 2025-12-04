@@ -19,7 +19,7 @@ void rtos_debug_hook(void) {
     /* Divide by 100 for percentace calculations */
     uint32_t total_time = (time_now - time_last) / 100;
 
-    printf("\nCPU usage averaged over last %.2f sec\n", ((float)total_time)/10000);
+    printf("\nCPU usage averaged over last %lu msec\n", total_time/10);
 
     /* Create a human readable table from the binary data. */
     for(int i = 0; i < count; i++) {
