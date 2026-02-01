@@ -285,14 +285,6 @@ to exclude the API function. */
 header file. */
 //#define configASSERT(x) ASSERT(x)
 
-/* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
-standard names - or at least those used in the unmodified vector table. */
-
-#define vPortSVCHandler SVCall_Handler
-
-#define xPortPendSVHandler PendSV_Handler
-#define xPortSysTickHandler SysTick_Handler
-
 /* Used when configGENERATE_RUN_TIME_STATS is 1. */
 #if configGENERATE_RUN_TIME_STATS
 extern void     vConfigureTimerForRunTimeStats(void);
@@ -331,5 +323,7 @@ to all Cortex-M ports, and do not rely on any particular library functions. */
 #endif
 
 #define configSTACK_DEPTH_TYPE uint32_t
+
+#define configENABLE_MPU 0
 
 #endif // FREERTOSCONFIG_H
