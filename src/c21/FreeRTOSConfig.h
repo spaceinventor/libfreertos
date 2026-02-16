@@ -283,7 +283,8 @@ to exclude the API function. */
 
 /* Normal assert() semantics without relying on the provision of an assert.h
 header file. */
-//#define configASSERT(x) ASSERT(x)
+void vApplicationAssert( const char *pcFile, uint32_t ulLine );
+#define configASSERT( x ) if( ( x ) == 0 ) vApplicationAssert( __FILE__, __LINE__ )
 
 /* Used when configGENERATE_RUN_TIME_STATS is 1. */
 #if configGENERATE_RUN_TIME_STATS
