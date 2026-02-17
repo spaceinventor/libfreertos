@@ -30,11 +30,6 @@ if (get_option('total_heap_size') > 0)
 	endif
 endif
 
-if (get_option('num_locks') > 0)
-	freertos_src += files(['src/freertos_lock.c'])
-	conf_data.set('NUM_LOCKS', get_option('num_locks'))
-endif
-
 configure_file(output : 'freertos_config.h', configuration: conf_data)
 
 freertos_deps = []
@@ -42,6 +37,7 @@ freertos_deps += dependency('start', fallback: ['start', 'start_dep'])
 freertos_deps += dependency('libc', fallback: ['picolibc', 'picolibc_dep'])
 
 if get_option('arch') == 'c21'
+	freertos_port = meson.get_external_property('freertos_port')
 	freertos_src += files(sdir + 'portable/' + freertos_port + '/portasm.c')
 endif
 
