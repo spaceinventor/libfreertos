@@ -286,6 +286,14 @@ header file. */
 void vApplicationAssert( const char *pcFile, uint32_t ulLine );
 #define configASSERT( x ) if( ( x ) == 0 ) vApplicationAssert( __FILE__, __LINE__ )
 
+/* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
+standard names - or at least those used in the unmodified vector table. */
+
+#define vPortSVCHandler SVCall_Handler
+
+#define xPortPendSVHandler PendSV_Handler
+#define xPortSysTickHandler SysTick_Handler
+
 
 /* Used when configGENERATE_RUN_TIME_STATS is 1. */
 #if configGENERATE_RUN_TIME_STATS
