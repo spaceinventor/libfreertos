@@ -7,6 +7,7 @@
 extern void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName);
 extern void vApplicationMallocFailedHook(void);
 extern void vApplicationIdleHook(void);
+extern void vApplicationTickHook( void ) __attribute__((weak));
 
 #if configSUPPORT_STATIC_ALLOCATION
 /* static memory allocation for the IDLE task */

@@ -30,6 +30,10 @@ if (get_option('total_heap_size') > 0)
 	endif
 endif
 
+if(get_option('tick_hook'))
+	conf_data.set('configUSE_TICK_HOOK', 1)
+endif
+
 configure_file(output : 'freertos_config.h', configuration: conf_data)
 
 freertos_deps = []
