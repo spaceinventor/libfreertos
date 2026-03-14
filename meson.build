@@ -1,9 +1,10 @@
 project('freertos', 'c')
 
 conf_data = configuration_data()
-conf_data.set('configTOTAL_HEAP_SIZE', get_option('total_heap_size'))
+conf_data.set('configTOTAL_HEAP_SIZE', get_option('heap_size'))
 conf_data.set('configTICK_RATE_HZ', get_option('tick_rate_hz'))
 conf_data.set('configCPU_CLOCK_HZ', get_option('cpu_clock_hz'))
+conf_data.set('configHEAP_SECTION', get_option('heap_section'))
 
 sdir = 'upstream/'
 
@@ -19,15 +20,14 @@ freertos_src = files([
 	'src/freertos_print.c',
 ])
 
-if (get_option('total_heap_size') > 0)
+if (get_option('heap_size') > 0)
 	freertos_src += files([
 		sdir + 'portable/MemMang/heap_4.c',
 		'src/malloc.c',
+		'src/heap.c',
 	])
 	conf_data.set('configSUPPORT_DYNAMIC_ALLOCATION', 1)
-	if(get_option('app_alloc_heap'))
-		conf_data.set('configAPPLICATION_ALLOCATED_HEAP', 1)
-	endif
+	conf_data.set('configAPPLICATION_ALLOCATED_HEAP', 1)
 endif
 
 configure_file(output : 'freertos_config.h', configuration: conf_data)
