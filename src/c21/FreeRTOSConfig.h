@@ -184,7 +184,7 @@
 #define configTIMER_TASK_STACK_DEPTH (64)
 #endif
 
-#define configPRIO_BITS 3
+#define configPRIO_BITS 2
 
 #define configMAX_TASK_NAME_LEN (8)
 #define configIDLE_SHOULD_YIELD 1
