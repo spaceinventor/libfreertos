@@ -56,7 +56,7 @@ void vApplicationTickHook(void) {
 }
 
 extern void vApplicationIdleHook(void) {
-	sleep(0);
+	sleep(2);
 }
 
 extern void __attribute__((weak)) cpu_reset(void);
@@ -73,8 +73,8 @@ void vConfigureTimerForRunTimeStats(void) {
 	return;
 }
 
-uint64_t clock_get_nsec_from_isr(void);
+uint32_t clock_get_usec_from_isr(void);
 uint32_t vGetRunTimeCounterValue(void) {
-	uint32_t usec = clock_get_nsec_from_isr() / 1000;
+	uint32_t usec = clock_get_usec_from_isr();
 	return usec;
 }

@@ -210,7 +210,7 @@ to exclude the API function. */
 // <q> Include function to delete task
 // <id> freertos_vtaskdelete
 #ifndef INCLUDE_vTaskDelete
-#define INCLUDE_vTaskDelete 1
+#define INCLUDE_vTaskDelete 0
 #endif
 
 // <q> Include function to suspend task
